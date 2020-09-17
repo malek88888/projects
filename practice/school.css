@@ -1,0 +1,75 @@
+body{
+display: grid;
+/* grid-template-rows:  10% 90%; */
+/* grid-template-columns: 50% 50% ; */
+grid-template-areas:"a a a"  "b c d" "e e e";
+/* grid-template-rows: 180px 250px 250px 100px ; */
+/* grid-template-columns: 400px 500px 400px ; */
+grid-template-rows: 1fr 4fr 1fr;
+grid-template-columns: 1fr 3fr 1fr;
+}
+.url{
+    display: block;
+
+    text-decoration: none;
+    color: rgb(221, 201, 84);
+    font-size: 40px;
+    width: 50px;
+}
+.url:hover{
+
+transform: scale(1.01);
+color: beige;
+transform: skew(20deg,5deg);
+transition: 1s;
+font-feature-settings: "sups";
+}
+
+ .li {
+  /*  display: f ; */
+    grid-area: e ;
+    background-color: green;
+
+ }
+ .home{
+     background-color: green;
+ }
+
+.dt {
+    display: block;
+
+    
+grid-area: b;
+background-color: green;
+}
+
+#mein{
+    
+
+    background-color: brown;  
+    font-size: 100px ;
+
+    grid-area: a ; 
+}
+.ds{
+    display: flexbox;
+ grid-area:d;   background-color:green
+}
+ 
+#bn{
+    display: flexbox;
+    background-color: lightblue;
+    grid-area: c;
+    font-stretch: ultra-expanded;
+}
+#news{
+    font-stretch: extra-expanded;
+    font-size: 35px;
+    font-style: oblique ;
+    text-shadow: black;
+}
+.t2{
+    font-size: 20px;
+    text-align: left;
+    margin: 10px;
+}
