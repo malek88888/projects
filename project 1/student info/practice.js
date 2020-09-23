@@ -18,11 +18,7 @@ const addList  = (newValue)=>{
         newList.append(newButton)
         ol.append(newList)
         newButton.addEventListener('click'
-        ,function(){for (let index = 0; index < newArr.length; index++){
-            if ( newArr[index]=newList.innerHTML[index]) {
-               newList.innerHTML[index]="" 
-            }
-           }
+        ,function(){
           
          newList.remove()
         } )

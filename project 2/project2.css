@@ -1,0 +1,58 @@
+
+body{
+    /* width: 2000;
+    height: 2000; */
+    display: grid;
+    grid-template-areas: "head head"
+                       "nav  main"
+                       "nav  main"
+                       "com main ";
+  grid-template-rows:  auto 3fr 1fr;
+  grid-template-columns: auto 1fr;
+}
+#home{
+    /* position: fixed; */
+    display: flex;
+    grid-area: head ;
+    gap: 40px;
+    align-items: center;
+    justify-items: stretch;
+    position: relative;
+    
+}
+#full{
+    grid-area: nav;
+    display: flex;
+}
+.logo{
+    height: 30px;
+    width: 50px;
+
+}
+.search{
+   display: flex;
+    padding:10px;
+    margin-left: 30px;
+    max-width: 1000px;
+    min-width: 500px;
+}
+#videosL{
+    display: grid;
+    padding: 10px;
+    /* position: ; */
+    grid-area: main;
+/* background-color: rgb(187, 65, 65);     */
+}
+.dis{
+    grid-area: com;
+    justify-items: start;
+    align-items: flex-start;
+}
+#cominput{
+    justify-self: right;
+
+}
+#videosL:hover{
+    color: brown;
+    
+}
