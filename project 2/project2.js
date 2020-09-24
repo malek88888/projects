@@ -96,18 +96,27 @@ const search = () => {
 }
 
 
-// const arr = []
-// const comment = () => {
-//   const commentL = $("#comments")
-//   const input = $("#com")
-//   const inputV = input.value
-//   arr.push(inputV)
-//   console.log(arr)
-//   const commentLV = $("li")
-//   commentLV.innertext = $("#com").value
-//   commentL.append(commentLV)
+const arr = []
+const comment = () => {
+  const commentL = $("#comments")
+  const input = $("#cInput")
+  const inputV = input.val()
+  input.val(" ")
+  arr.push(inputV)
+  console.log(arr)
+  const commentLV = $(`<li></li>`)
+  commentLV.text(`${inputV}`)
+  console.log(commentLV)
+  commentL.append(commentLV)
+  const removeB = $(`<button>Delete Comment</button>`)
+  commentLV.append(removeB)
 
-// }
+  removeB.click(function () {
+    commentLV.remove()
+    
+  })
+
+}
 // const add = (added)=>{
 
 // commentLV.innertext=added
