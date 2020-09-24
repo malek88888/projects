@@ -5,9 +5,9 @@ body{
     display: grid;
     grid-template-areas: "head head"
                        "nav  main"
-                       "nav  main"
+                       "nav main"
                        "com main ";
-  grid-template-rows:  auto 3fr 1fr;
+  grid-template-rows:  auto 3fr 1fr 1fr;
   grid-template-columns: auto 1fr;
 }
 #home{
@@ -20,7 +20,7 @@ body{
     position: relative;
     
 }
-#full{
+.titel{
     grid-area: nav;
     display: flex;
 }
@@ -44,9 +44,11 @@ body{
 /* background-color: rgb(187, 65, 65);     */
 }
 .dis{
+   display: flex;
     grid-area: com;
-    justify-items: start;
-    align-items: flex-start;
+    background-color: brown;
+    font-size: 40px;
+    
 }
 #cominput{
     justify-self: right;

@@ -41,32 +41,58 @@ const videos = [
   },
 ];
 
-
+const full = $('#full')
+const dis = $(`.dis`)
 const ul = $("#ul")
+const titel = $(`titel`)
+var x = null
 videos.forEach(function (video) {
-  const li = $(`<li>
+  const li = $(`<div class = click > 
     <img  src='${video.thumbnail}' style='width:100px' >
     <p>${video.title}  </p>
-  </li>`)
+  </div>`)
+
+  console.log(`${video.id}`)
   ul.append(li);
+
+  li.click(function () {
+    ul.prepend(x);
+    full.attr(`src`, `https://www.youtube.com/embed/${video.id}`)
+    dis.empty()
+    dis.append(video.title)
+    x= li.detach();
+
+    alert("The video was clicked.");
+
+  });
+  // for (let index = 0; index < videos.length; index++) {
+  //   var click = $(`.click`)
+  //   click.click(function () {
+  //     click.attr(`color`,`red`)
+  // video.attr(`src`, `https://www.youtube.com/embed/${videos[index].id}`)
+  //   })
+  // }
+
 
   // const li3 = $(`<li> id =${video.id} </li>`)
   // li2.appendTo(li)
   // li3.appendTo(li)
 });
-const video = $('#full')
+
 const search = () => {
   const iValue = $(`.search`).val()
+
   for (let index = 0; index < videos.length; index++) {
 
     if (videos[index].title === iValue) {
-      video.attr(`src`, `https://www.youtube.com/embed/${videos[index].id}`)
-     return 
+      full.attr(`src`, `https://www.youtube.com/embed/${videos[index].id}`)
+      dis.append(iValue)
+      return
     }
-    
+
   }
 
-  alert(`this video is not existed` )
+  alert(`this video is not existed`)
 }
 
 
