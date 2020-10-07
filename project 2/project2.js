@@ -60,7 +60,7 @@ videos.forEach(function (video) {
     full.attr(`src`, `https://www.youtube.com/embed/${video.id}`)
     dis.empty()
     dis.append(video.title)
-    x= li.detach();
+    x = li.detach();
 
     alert("The video was clicked.");
 
@@ -113,7 +113,7 @@ const comment = () => {
 
   removeB.click(function () {
     commentLV.remove()
-    
+
   })
 
 }
