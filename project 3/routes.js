@@ -17,7 +17,7 @@ authRouter.post('/register', async (req, res) => {
         throw err
     }
 })
-authRouter.get("/protect",await (logIn(req.body)), middleware, (req, res) => {
+authRouter.get("/protect", logIn, middleware, (req, res) => {
     try {
         res.json("res from jwt")
     } catch (error) {
@@ -33,7 +33,7 @@ authRouter.get('/login', async (req, res) => {
         throw err
     }
 })
-authRouter.get('/users', async (req, res) => {
+authRouter.get('/users', middleware, async (req, res) => {
     res.json(await getUsers())
 
 })

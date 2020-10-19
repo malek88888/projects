@@ -39,7 +39,8 @@ const register = async (user) => {
 const logIn = async (user) => {
   const newUser = users.filter((u) => {
     return u.email === user.email
-  })
+  }) 
+  console.log(123);
   const addedUser = user
 
   // addedUser.password = await bcrypt.hash(addedUser.password, Number(process.env.SALT))
@@ -61,11 +62,13 @@ const logIn = async (user) => {
       const options = {
         expiresIn: process.env.TOKEN_EXPIRATION
       }
-      // return "sssssss"
+      
       // console.log(jwt.sign(payload, process.env.SECRET, options));
-      // return newUser
-     const jwtKey=jwt.sign(payload, process.env.SECRET, options)
+      
+      
+      
       return jwt.sign(payload, process.env.SECRET, options)
+    
     } else {
       return "password is incorrect"
     }
@@ -159,6 +162,6 @@ module.exports = {
   getOrder,
   updateOrder,
   deleteOrder,
-  jwtKey
+  
 
 }
