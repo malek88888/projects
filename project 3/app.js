@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 require('dotenv').config()
-console.log(232342342);
-
+const db = require("./db")
 const router = require('./routes')
 
 app.use(express.json())

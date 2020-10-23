@@ -1,7 +1,9 @@
 // const app = require("./app")
 const express = require('express');
-
-const { register, logIn, getUsers, getOrders, addOrder, getOrder, updateOrder, deleteOrder } = require("./controller")
+const { usersModule, ordersModule } = require("./schema")
+const { register, logIn, getUsers, deleteUser, deleteAllUsers,
+    updateUser,
+    getOrders, addOrder, getOrder, updateOrder, deleteOrder } = require("./controller")
 
 const middleware = require("./middlewares")
 const authRouter = express.Router()
@@ -33,8 +35,24 @@ authRouter.get('/login', async (req, res) => {
         throw err
     }
 })
-authRouter.get('/users', middleware, async (req, res) => {
-    res.json(await getUsers())
+authRouter.delete('/users/delete',/* middleware,*/ async (req, res) => {
+    // res.json(await getUsers())
+    res.json(await deleteUser(req.body))
+
+})
+authRouter.delete('/users/delete-all',/* middleware,*/ async (req, res) => {
+    // res.json(await getUsers())
+    res.json(await deleteAllUsers(req.body))
+
+})
+authRouter.get('/users',/* middleware,*/ async (req, res) => {
+    // res.json(await getUsers())
+    res.json(await usersModule.find({}))
+
+})
+authRouter.put('/users/update-user',/* middleware,*/ async (req, res) => {
+    // res.json(await getUsers())
+    res.json(await updateUser(req.body))
 
 })
 authRouter.get('/orders', async (req, res) => {

@@ -1,31 +1,64 @@
+const {usersModule,ordersModule} = require("./schema")
+const { orders, users, roles } = require('./models');
+const db = require("./db")
+
 const bcrypt = require('bcrypt') // for hashing
 const dotenv = require('dotenv')// for hide  in .env file
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { orders, users, roles } = require('./models');
 require('dotenv').config()
 
+const nUsers= new usersModule({
+    userName:"user.userName",
+    userId:2,
+    email:"user.email",
+    password:"addUser.password",
+    permissions:"{r,w,u,d}",
+    birthday:2,
+  }).save((err,result)=>
+  {if(err){console.log(err);}
+else 
+console.log("result:",result);
+})
+  
+  // console.log("users:",nUsers);
 
-const register = async (user) => {
+
+
+
+  const register = async (user) => {
   // console.log(user);
   if (!user.email.includes("@")||!user.email.includes(".com")) {
     return  "Please enter your email currect"
   }
-  const newUser = users.filter((u) => {
-    return u.email === user.email
+  // const newUser = users.filter((u) => {
+  //   return u.email === user.email
+  // })
+  const newUser =await usersModule.find({email:user.email},(err)=>{
+console.log(err);
   })
+  console.log("newUser:",newUser);
   if (newUser.length === 0) {
     const addUser = user
     addUser.ID = 2;
     addUser.password = await bcrypt.hash(user.password, Number(process.env.SALT))
-    if (user.birthDay==="") {
-      return "Please enter your birthday"
-    }
-    if (user.userName.length<4||user.userName.includes("#")) {
-      return "Please enter your user name currect"
+    // if (user.birthDay==="") {
+    //   return "Please enter your birthday"
+    // }
+    // if (user.userName.length<4||user.userName.includes("#")) {
+    //   return "Please enter your user name currect"
 
-    }
-    users.push(addUser)
+    // }
+    new usersModule({
+      userName:user.userName,
+      userId:user.id,
+      email:user.email,
+      password:addUser.password,
+      permissions:"r ,w ,u ,d",
+      birthday:user.birthDay,
+    }).save((err)=>{console.log(err); })
+    console.log("newUser:",newUser)
+    // users.push(addUser)
     // console.log("added", users)
     return `welcome to our website MR.${user.userName.toUpperCase()}`
   } else {
@@ -37,9 +70,12 @@ const register = async (user) => {
 // console.log(users);
 
 const logIn = async (user) => {
-  const newUser = users.filter((u) => {
-    return u.email === user.email
-  }) 
+  const newUser = await usersModule.find({email:user.email},(err)=>{
+    console.log(err);
+      })
+  // users.filter((u) => {
+  //   return u.email === user.email
+  // }) 
   console.log(123);
   const addedUser = user
 
@@ -51,10 +87,13 @@ const logIn = async (user) => {
 
     console.log("passsssssssssed", await bcrypt.compare(user.password, newUser[0].password))
     if (await bcrypt.compare(user.password, newUser[0].password)) {
-      const permission = roles.filter((p) => {
-        return p.id === newUser[0].role_id
-      })
-      console.log(newUser[0].email)
+      const permission = await usersModule.find({userId:user.Id},(err)=>{
+        console.log(err);
+          })
+      // roles.filter((p) => {
+      //   return p.id === newUser[0].role_id
+      // })
+      // console.log(newUser[0].email)
       const payload = {
         email: newUser[0].email,
         permissions: permission[0].permissions
@@ -80,8 +119,38 @@ const logIn = async (user) => {
 
 const getUsers = async (user) => {
   console.log(1);
-  return users
-
+return await nUsers.find({})
+}
+const deleteUser = async (user) => {
+  console.log(1);
+return await  usersModule.deleteOne({email:user.email},(err)=>{
+  console.log(err);
+}
+)
+}
+const deleteAllUsers = async (user) => {
+  console.log(1);
+return await  usersModule.deleteMany({email:user.email},(err)=>{
+  console.log(err);
+}
+)
+}
+const updateUser = async (user) => {
+  console.log(1);
+  const newPass=await bcrypt.hash(user.ePassword,Number(process.env.SALT))
+  console.log("newPass:", newPass);
+return await  usersModule.updateOne({email:user.eEmail},{
+  userName:user.eUserName,
+  userId:user.eId,
+  email:user.eEmail,
+  password:newPass,
+  permissions:user.ePermission,
+  birthday:user.eBirthDay,
+}
+  ,(err)=>{
+  console.log(err);
+}
+)
 }
 const getUser = async (user) => {
   console.log(1);
@@ -157,6 +226,9 @@ module.exports = {
   register,
   logIn,
   getUsers,
+  deleteUser,
+  deleteAllUsers,
+  updateUser,
   getOrders,
   addOrder,
   getOrder,
