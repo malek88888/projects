@@ -76,7 +76,7 @@ const logIn = async (user) => {
   // users.filter((u) => {
   //   return u.email === user.email
   // }) 
-  console.log(123);
+  console.log(newUser);
   const addedUser = user
 
   // addedUser.password = await bcrypt.hash(addedUser.password, Number(process.env.SALT))
@@ -96,7 +96,7 @@ const logIn = async (user) => {
       // console.log(newUser[0].email)
       const payload = {
         email: newUser[0].email,
-        permissions: permission[0].permissions
+        permissions: newUser[0].permissions
       }
       const options = {
         expiresIn: process.env.TOKEN_EXPIRATION
@@ -158,17 +158,26 @@ const getUser = async (user) => {
 
 }
 var m = 6
-const addOrder = async (oCategory, oName, oColor,oPrice,oId) => {
+const addOrder = async (oCategory, oName, oColor,oPrice,oId,quantity) => {
   const newOrder ={}
-  newOrder.Name = oName
-  newOrder.Color = oColor
+  // newOrder.Name = oName
+  // newOrder.Color = oColor
   newOrder.Id= m++
   newOrder.Id=newOrder.Id.toString()
-  newOrder.Price=oPrice
-
-  orders.push(newOrder)
-  return orders
-
+  // newOrder.Price=oPrice
+const allOrders=await new ordersModule({
+  itemName:oName,
+    price:oPrice,
+    numOfItems:quantity,
+    color:oColor,
+    orderId:newOrder.Id
+}).save((err,result)=>{if(err){console.log(err);}
+else{console.log(result)}
+})
+console.log("allOrders:", allOrders);
+  // orders.push(newOrder)
+  // return orders
+return await ordersModule.find({})
 }
 const getOrders = async (order) => {
   console.log(1);
@@ -176,49 +185,62 @@ const getOrders = async (order) => {
 
 }
 const getOrder = async (order) => {
-  const ord =order
-  const myOrder =  orders.filter((o)=>{
-    return  o.id===order.id
+  const myOrder = await ordersModule.findOne({orderId:order.fId},(err,result)=>{
+    if(err){console.log(err)}
+    else{console.log(result);}
   })
-  if (myOrder.length===0) {
-    return"wrong id given"
-  }
-  console.log("my",myOrder);
   return myOrder
+  
+  // const ord =order
+  // const myOrder =  orders.filter((o)=>{
+  //   return  o.id===order.id
+  // })
+  // if (myOrder.length===0) {
+  //   return"wrong id given"
+  // }
+  // console.log("my",myOrder);
+  // return myOrder
 
 }
 const updateOrder=async(order)=>{
-  const ord =order
-  let myOrder =  orders.filter((o)=>{
-    return  o.id===order.id
-  })
-  if (myOrder.length===0) {
-    return"wrong id given"
-  }
-  console.log("my1",myOrder);
-  myOrder[0].name=order.eName
-  myOrder[0].color=order.eColor
-  myOrder[0].price=order.ePrice
-
-  console.log("my2",myOrder);
-  return myOrder
-}
-const deleteOrder=async(order)=>{
-  // const ord =order
+const updated =await ordersModule.update({orderId:order.eId}, 
+  {itemName:order.eName,
+  price:order.ePrice,
+  numOfItems:order.eQuantity,
+  color:order.eColor,
+  // orderId:Order.eId
+})
+  return updated
   // let myOrder =  orders.filter((o)=>{
   //   return  o.id===order.id
   // })
   // if (myOrder.length===0) {
   //   return"wrong id given"
   // }
-   for (let index = 0; index < orders.length; index++) {
-    if (orders[index].id===order.id) {
-      orders.splice(index,1)
-      index--
-      return orders}
+  // console.log("my1",myOrder);
+  // myOrder[0].name=order.eName
+  // myOrder[0].color=order.eColor
+  // myOrder[0].price=order.ePrice
+
+  // console.log("my2",myOrder);
+  // return 
+  
+}
+const deleteOrder=async(order)=>{
+  const deleted = await ordersModule.deleteOne({orderId:order.dId},(err,result)=>{
+    if(err){console.log(err)}
+    else{console.log(result);}
+  })
+  return deleted
+  //  for (let index = 0; index < orders.length; index++) {
+  //   if (orders[index].id===order.id) {
+  //     orders.splice(index,1)
+  //     index--
+      // return orders
+    // }
+// } 
     
-    
-  }
+  
   return orders
 }
 

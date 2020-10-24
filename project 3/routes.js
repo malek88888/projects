@@ -1,5 +1,7 @@
 // const app = require("./app")
 const express = require('express');
+// app.use(express.json())
+const app = express()
 const { usersModule, ordersModule } = require("./schema")
 const { register, logIn, getUsers, deleteUser, deleteAllUsers,
     updateUser,
@@ -56,24 +58,40 @@ authRouter.put('/users/update-user',/* middleware,*/ async (req, res) => {
 
 })
 authRouter.get('/orders', async (req, res) => {
-    res.json(await getOrders(req.body))
+    // res.json(await getOrders(req.body))
+    res.json(await ordersModule.find({}))
 })
 authRouter.get('/orders/add', async (req, res) => {
     const b = req.body
-    res.json(await addOrder(req.body.category, req.body.orderName, req.body.color, b.price, b.id))
+    res.json(await addOrder(req.body.category, req.body.itemName, req.body.color, b.price, b.id, b.quantity))
 })
 authRouter.get('/orders/find', async (req, res) => {
     res.json(await getOrder(req.body))
 
 })
-authRouter.get('/orders/update', async (req, res) => {
+authRouter.put('/orders/update', async (req, res) => {
     res.json(await updateOrder(req.body))
 })
-authRouter.get('/orders/delete', async (req, res) => {
+authRouter.delete('/orders/delete', async (req, res) => {
     res.json(await deleteOrder(req.body))
 })
 
 console.log(12222342423);
+authRouter.all("*", (req, res, next) => {
+    const err = new Error("Error 404 :path not found")
+    err.status=404
+    next(err)
+})
+
+authRouter.use((err, req, res, next) => {
+    res.status(err.status)
+    res.json({
+        error: {
+            message: err.message,
+            status: err.status
+        }
+    })
+})
 module.exports = authRouter
 
 //jwt

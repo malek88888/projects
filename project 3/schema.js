@@ -13,7 +13,9 @@ const users = new mongoose.Schema({
 const orders = new mongoose.Schema({
     itemName:{type:String,require:true},
     price:{type:Number,require:true},
-    numOfItems:{type:Number,require:true}
+    numOfItems:{type:Number,require:true},
+    color:{type:String,require:true},
+    orderId:{type:Number,require:true}
 })
 // users.pre("save",async function(){
 //     this.password=await bcrypt.hash.this.password
