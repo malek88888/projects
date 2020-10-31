@@ -12,7 +12,7 @@ console.log(232342342);
 
 
 
-const port = 3000
+const port = 5000
 // ||process.env.PORT
 app.listen(port, () => {
   console.log(`AUTH ON at http://localhost:${port}`);
